@@ -99,9 +99,90 @@ $(function () {
     // Do not modify the JS objects above. You will write your code below.
     // *********************************************************************
 
+    // Add username and dashboard statistics
+    $("#username").text(username);
+    $(".revenue-amt").text(revenueAmt);
+    $("#customer-num").text(customerNum);
+    $("#orders-amt").text(ordersAmt);
+    $("#issues-amt").text(issuesAmt);
 
+    // Add notification count
+    $("#notification-num").text(notifAmt);
 
-       
+    // Build sales table
+    sales.forEach(function (sale) {
+        const row = $("<tr>");
 
+        row.append($("<td>").text(sale.product));
+        row.append($("<td>").text(sale.quantity));
+        row.append($("<td>").text(sale.revenue));
 
+        $("#salesTableBody").append(row);
     });
+
+    // Build activity list
+    activities.forEach(function (activity) {
+        const item = $("<li>").text(activity.message);
+        $("#activity-list").append(item);
+    });
+
+    // Build recent customers table
+    customers.forEach(function (customer) {
+        const row = $("<tr>");
+
+        row.append($("<td>").text(customer.name));
+        row.append($("<td>").text(customer.email));
+
+        const status = $("<span>")
+            .addClass("status")
+            .text(customer.status);
+
+        row.append($("<td>").append(status));
+        row.append($("<td>").text(customer.joined));
+
+        $("#customerTableBody").append(row);
+    });
+
+    // Build system status list
+    messages.forEach(function (message) {
+        const item = $("<li>").text(message.messsage);
+        $("#system-status-list").append(item);
+    });
+
+    // Build notifications list
+    notifications.forEach(function (notification) {
+        const item = $("<li>").text(notification.messsage);
+        $("#notifications-list").append(item);
+    });
+
+    // Build tasks list
+    tasks.forEach(function (task) {
+        const item = $("<li>").text(task.messsage);
+        $("#tasks-list").append(item);
+    });
+
+    // Convert all buttons into jQuery UI buttons
+    $("button").button();
+
+    // Convert dashboardTabs into a Tabs widget
+    $("#dashboardTabs").tabs();
+
+    // Convert customerDialog into a Dialog widget
+    $("#customerDialog").dialog({
+        autoOpen: false,
+        modal: true,
+        width: 450,
+        buttons: {
+            "Create Customer": function () {
+                var name = $("#customerName").val();
+                var email = $("#customerEmail").val();
+
+                if (!name || !email) {
+                    alert("Please enter a name and email.");
+                    return;
+                }
+            }
+        }
+    });
+
+});
